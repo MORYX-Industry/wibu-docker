@@ -1,0 +1,86 @@
+networks:
+  codemeter-network:
+    external: false
+    driver: bridge
+    attachable: true
+
+services: 
+  codemeter_license_service:
+    build: 
+      context: ./wibu/
+      dockerfile: CodeMeter.Dockerfile
+    image: wibu/codemeter:base
+    container_name: CmLicenseService
+    hostname: codemeter_license_service
+    restart: unless-stopped
+    entrypoint: [ "/usr/sbin/CodeMeterLin", "-v", "-l+", "-n-" ]
+    volumes:
+      - cm_config_volume:/etc/wibu/CodeMeter
+      - cm_license_volume:/var/lib/CodeMeter/CmAct
+      - /var/run/docker.sock:/var/run/docker.sock 
+      - ./wibu/licenses:/.wibu
+    networks:
+      - codemeter-network
+    # The following are recommendations by Wibu
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: '75MB'
+        reservations:
+          cpus: '0.25'
+          memory: '35MB'
+
+  
+  codemeter_webadmin:
+    # If you don't need the WebAdmin tool, you can remove this container
+    build: 
+      context: ./wibu/
+      dockerfile: CmWebAdmin.Dockerfile
+    image: wibu/codemeter:webadmin
+    container_name: CmWebAdmin
+    hostname: codemeter_webadmin
+    restart: unless-stopped
+    environment:
+      CODEMETER_HOST: codemeter_license_service
+    volumes:
+      - cm_config_volume:/etc/wibu/CodeMeter
+    ports:
+      - "22080:22352"
+      - "22443:22353"
+    networks:
+      - codemeter-network
+    depends_on:
+      - codemeter_license_service
+    # The following are recommendations by Wibu
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: '75MB'
+        reservations:
+          cpus: '0.25'
+          memory: '20MB'
+
+#  your_application:
+#    container_name: your_application
+#    environment:
+#      CODEMETER_HOST: codemeter_license_service
+#    networks:
+#      - default
+#      - codemeter-network
+#    depends_on:
+#      - codemeter_license_service
+      
+volumes:
+  cm_config_volume: 
+    driver: local
+    external: false
+    labels:
+      description: "CodeMeter Config Volume"
+  
+  cm_license_volume:
+    driver: local
+    external: false
+    labels:
+      description: "CodeMeter CmAct License Volume"

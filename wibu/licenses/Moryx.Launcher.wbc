@@ -1,0 +1,19 @@
+[WIBU-SYSTEMS Control File]
+Guid={00090001-0000-1100-8005-0000C06B5161}
+Description=CodeMeter - Box Programming Command File (CmBoxPgm)
+Version=1.00
+
+; MORYX-Module Launcher - Developer License
+[Commandline]
+-f6000000 
+-ft:"PHOENIX CONTACT" 
+-cau 
+-p1301039
+-pt:"MORYX-Module Launcher" 
+-pfm2 
+-cau
+-laf:"Moryx.Launcher.WibuCmRaU"
+-lpn:"Developer License - MORYX-Module Launcher" 
+-lopt:reimport,vm,container
+-lfs:non
+-lpid:2003

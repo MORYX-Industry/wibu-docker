@@ -1,0 +1,6 @@
+wibu/deb/usr/* filter=lfs diff=lfs merge=lfs -text
+wibu/deb/usr/bin/CodeMeterCC filter=lfs diff=lfs merge=lfs -text
+wibu/deb/usr/sbin/CmWebAdmin filter=lfs diff=lfs merge=lfs -text
+wibu/deb/usr/sbin/CodeMeterLin filter=lfs diff=lfs merge=lfs -text
+wibu/deb/usr/bin/cmu filter=lfs diff=lfs merge=lfs -text
+wibu/deb/usr/lib/CodeMeter/Plugins/CmReady/cmready.so filter=lfs diff=lfs merge=lfs -text
