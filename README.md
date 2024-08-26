@@ -116,7 +116,7 @@ If you want to remove the old images execute
 docker image prune
 ```
 
-#### Push the imags to a docker registry of your choice
+#### Push the images to a docker registry of your choice
 ```
 # Build the Docker images:
 docker compose build
@@ -135,9 +135,28 @@ docker push <registry_url>/<repository>/<webadmin_image_name>:<tag>
 
 ## Add a MORYX application
 If you already have a MORYX application you can of course also manage it in a seperate repo. 
+#### Initialize using the CLI
 To wrap up this tutorial we, however, we start by adding a new application using the moryx CLI
 ```
 moryx new Example --no-git-init
 ```
+#### Add docker support to the application project
 Now we add docker support to our application project. 
 If you are working with Visual Studio, there is a [convenient option from the context menu](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/visual-studio-tools-for-docker?view=aspnetcore-8.0#existing-app).
+Whether or not you used this option you now need to add or extend the Dockerfile in the *src/Example.App* directory to match [this one](src/Example.App/Dockerfile).
+Compared to the standard Dockerfile that Visual Studio would have added we made two changes here.
+First, we add the `Directory.Build.props`, `Directory.Build.targets`, and `NuGet.Config` files to ensure that the build process inside the Docker container uses the same configuration and dependencies as our local development environment.
+```
+...
+# Add these lines to the Dockerfile before the dotnet restore command
+COPY ["Directory.Build.props", "."]
+COPY ["Directory.Build.targets", "."]
+COPY ["NuGet.Config", "."]
+...
+```
+Second, we need to add the Wibu dependencies to our final image to be able to use the encrypted MORYX packages.
+```
+# Add these lines to the part creating the final image
+COPY wibu/deb/usr/lib/x86_64-linux-gnu/libwibucm.so /usr/lib/x86_64-linux-gnu/libwibucm.so
+COPY wibu/deb/usr/lib/x86_64-linux-gnu/libcpsrt.so /usr/lib/x86_64-linux-gnu/libcpsrt.so
+```

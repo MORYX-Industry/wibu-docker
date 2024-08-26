@@ -9,6 +9,9 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Directory.Build.props", "."]
+COPY ["Directory.Build.targets", "."]
+COPY ["NuGet.Config", "."]
 COPY ["src/Example.App/Example.App.csproj", "src/Example.App/"]
 COPY ["src/Example/Example.csproj", "src/Example/"]
 COPY ["src/Example.ControlSystem/Example.ControlSystem.csproj", "src/Example.ControlSystem/"]
@@ -27,4 +30,6 @@ RUN dotnet publish "./Example.App.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY wibu/deb/usr/lib/x86_64-linux-gnu/libwibucm.so /usr/lib/x86_64-linux-gnu/libwibucm.so
+COPY wibu/deb/usr/lib/x86_64-linux-gnu/libcpsrt.so /usr/lib/x86_64-linux-gnu/libcpsrt.so
 ENTRYPOINT ["dotnet", "Example.App.dll"]
