@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "default": {
+      "branch": "machine",
+      "repository": "https://github.com/PHOENIXCONTACT/MORYX-Template.git"
+    }
+  }
+}

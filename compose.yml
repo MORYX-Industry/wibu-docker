@@ -62,17 +62,30 @@ services:
           cpus: '0.25'
           memory: '20MB'
 
-#  your_application:
-#    container_name: your_application
-#    environment:
-#      CODEMETER_HOST: codemeter_license_service
-#    networks:
-#      - default
-#      - codemeter-network
-#    depends_on:
-#      - codemeter_license_service
+  moryx:
+    build: 
+      context: ./
+      dockerfile: ./src/Example.App/Dockerfile
+    image: moryx/example:latest
+    container_name: moryx
+    restart: unless-stopped
+    ports:
+      -8080:8080
+      -8081:8081
+    environment:
+      CODEMETER_HOST: codemeter_license_service
+    volumes:
+      - moryx-config:/app/Config
+      - moryx-logs:/app/Logs
+    networks:
+      - default
+      - codemeter-network
+    depends_on:
+      - codemeter_license_service
       
 volumes:
+  moryx-logs:
+  moryx-config:
   cm_config_volume: 
     driver: local
     external: false

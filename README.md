@@ -1,4 +1,5 @@
-# Wibu Docker Environment
+# MORYX Docker Environment
+**In addition to the instructions on the main branch, we include an example moryx application and instructions to setup yours in a docker environment**
 
 This is a summarized instruction to create and setup a docker environment for applications that depend on CodeMeter from Wibu Systems. 
 The official instructions from Wibu can be found in the pdf [CodeMeter Developer – CodeMeter in Docker](https://www.wibu.com/support/manuals-guides.html).
@@ -130,4 +131,11 @@ docker login <registry_url>
 # Push the Docker images to the registry
 docker push <registry_url>/<repository>/<codemeter_image_name>:<tag>
 docker push <registry_url>/<repository>/<webadmin_image_name>:<tag>
+```
+
+## Add a MORYX application
+If you already have a MORYX application you can of course also manage them in seperate repos. 
+To wrap up this tutorial we, however, start by adding a new application using the moryx CLI
+```
+moryx new Example --no-git-init
 ```
