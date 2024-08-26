@@ -160,3 +160,28 @@ Second, we need to add the Wibu dependencies to our final image to be able to us
 COPY wibu/deb/usr/lib/x86_64-linux-gnu/libwibucm.so /usr/lib/x86_64-linux-gnu/libwibucm.so
 COPY wibu/deb/usr/lib/x86_64-linux-gnu/libcpsrt.so /usr/lib/x86_64-linux-gnu/libcpsrt.so
 ```
+Lastly, we are going to adjust the `compose.yml` file.
+Where up till now only a placeholder indicated how to include your app into the Wibu architecture, we will now put the required instructions to build and use our app instead.
+```yml
+moryx:
+    build: # Build the docker image from the code
+      context: ./
+      dockerfile: ./src/Example.App/Dockerfile
+    image: moryx/example:latest
+    container_name: moryx
+    restart: unless-stopped
+    ports: # Adjust the mapped ports to match your use case
+      -8080:8080
+      -8081:8081
+    environment: # We need to set this env variable for the Wibu dependencies to work
+      CODEMETER_HOST: codemeter_license_service
+    volumes: # Persiting the configs and logs 
+      - moryx-config:/app/Config
+      - moryx-logs:/app/Logs
+    networks: # In addition to the default network we need to put our app into the network of the codemeter container
+      - default
+      - codemeter-network
+    depends_on: # Add a dependency on the codemeter docker container
+      - codemeter_license_service
+```
+That's it, when you [bring up your composed docker infrastructure](#start-the-docker-containers) with the full [compose.yml](compose.yml) file your application is ready to go!

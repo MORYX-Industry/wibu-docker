@@ -63,21 +63,21 @@ services:
           memory: '20MB'
 
   moryx:
-    build: 
+    build: # Build the docker image from the code
       context: ./
       dockerfile: ./src/Example.App/Dockerfile
     image: moryx/example:latest
     container_name: moryx
     restart: unless-stopped
-    ports:
-      -8080:8080
-      -8081:8081
-    environment:
+    ports: # Adjust the mapped ports to match your use case
+      - "8080:8080"
+      - "8081:8081"
+    environment: # We need to set this env variable for the Wibu dependencies to work
       CODEMETER_HOST: codemeter_license_service
-    volumes:
+    volumes: # Persiting the configs and logs 
       - moryx-config:/app/Config
       - moryx-logs:/app/Logs
-    networks:
+    networks: # In addition to the default network we need to put our app into the network of the codemeter container
       - default
       - codemeter-network
     depends_on:
