@@ -134,8 +134,10 @@ docker push <registry_url>/<repository>/<webadmin_image_name>:<tag>
 ```
 
 ## Add a MORYX application
-If you already have a MORYX application you can of course also manage them in seperate repos. 
-To wrap up this tutorial we, however, start by adding a new application using the moryx CLI
+If you already have a MORYX application you can of course also manage it in a seperate repo. 
+To wrap up this tutorial we, however, we start by adding a new application using the moryx CLI
 ```
 moryx new Example --no-git-init
 ```
+Now we add docker support to our application project. 
+If you are working with Visual Studio, there is a [convenient option from the context menu](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/visual-studio-tools-for-docker?view=aspnetcore-8.0#existing-app).
