@@ -56,7 +56,7 @@ The folder is mapped to the CodeMeter container, which allows you to add the lic
 ```
 docker exec CmLicenseService cmu -i -f /.wibu/Moryx.Launcher.WibuCmRaU
 ```
-When you refresh the WebAdmin page, you should now see the first license in you docker container.
+When you refresh the WebAdmin page, you should now see the first license in your docker container.
 
 Beware, for a license to be activatable in a CodeMeter docker container the license-container (confusing I know... I don't mean the docker container here but the thing that holds licenses in Wibu, which is also called a container) needs to allow this.
 For our demo licenses, we set the -lopt configuration in the .wbc file. 
