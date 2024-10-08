@@ -9,10 +9,6 @@ LABEL com.wibu.vendor="WIBU-SYSTEMS AG"\
 # Port used by CodeMeter - see Server.ini#NetworkPort
 EXPOSE 22350
 
-# Declare com-ports used by CodeMeter WebAdmin in order for http(s) communication 
-EXPOSE 22352
-EXPOSE 22353
-
 # Copy codemeter files into the image
 COPY deb/usr/bin /usr/bin
 COPY deb/usr/sbin /usr/sbin

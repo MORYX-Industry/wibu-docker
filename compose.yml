@@ -21,6 +21,8 @@ services:
       - ./wibu/licenses:/.wibu
     networks:
       - codemeter-network
+    extra_hosts:
+      - host.docker.internal:host-gateway
     # The following are recommendations by Wibu
     deploy:
       resources:
